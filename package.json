@@ -1,0 +1,36 @@
+{
+	"name": "api_rest_coderhouse",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"start": "node --watch ./src/server.js",
+		"lint": "npx eslint ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/matcbv/api_rest_coderhouse.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/matcbv/api_rest_coderhouse/issues"
+	},
+	"homepage": "https://github.com/matcbv/api_rest_coderhouse#readme",
+	"description": "",
+	"dependencies": {
+		"dotenv": "^16.5.0",
+		"ejs": "^3.1.10",
+		"express": "^5.1.0",
+		"jsonwebtoken": "^9.0.2",
+		"mongodb": "^6.16.0",
+		"mongoose": "^8.14.1"
+	},
+	"devDependencies": {
+		"eslint": "^9.26.0",
+		"eslint-config-prettier": "^10.1.2",
+		"prettier": "^3.5.3",
+		"webpack": "^5.99.7"
+	}
+}
