@@ -3,6 +3,7 @@ const path = require('path');
 
 const express = require('express');
 const productRoutes = require('./routes/productRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 const { errorMiddleware } = require('./middlewares/globalMiddlewares');
 const connectMongo = require('./db');
 
@@ -17,7 +18,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'public')));
 app.set('views', path.resolve(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 
-app.use('/api', productRoutes);
+app.use('/api', productRoutes, cartRoutes);
 app.use(errorMiddleware);
 
 app.listen(process.env.SERVER_PORT, () => {

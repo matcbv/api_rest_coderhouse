@@ -4,7 +4,7 @@ const ProductController = {
 	getProducts: async (req, res, next) => {
 		try{
 			const productsData = await ProductModel.find({});
-			res.send(productsData);
+			res.json(productsData);
 		} catch (e) {
 			next(e);
 		}
@@ -13,7 +13,7 @@ const ProductController = {
 	getProduct: async (req, res, next) => {
 		try{
 			const productData = await ProductModel.findById(req.params.productId);
-			res.send(productData);
+			res.json(productData);
 		} catch(e){
 			next(e);
 		}
@@ -22,15 +22,16 @@ const ProductController = {
 	putProduct: async (req, res, next) => {
 		try{
 			const updatedData = await ProductModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
-			res.send(updatedData);
+			res.json(updatedData);
 		} catch(e){
 			next(e);
 		}
 	},
 
-	addProduct: async (req, res, next) => {
+	postProduct: async (req, res, next) => {
 		try {
 			await ProductModel.create(req.body);
+			res.status(200).send('Produto adicionado com sucesso!');
 		} catch (e) {
 			next(e);
 		}
@@ -39,7 +40,7 @@ const ProductController = {
 	delProduct: async (req, res, next) => {
 		try{
 			await ProductModel.findByIdAndDelete(req.body.id);
-			res.status(200).send('Documento excluído com sucesso.');
+			res.status(200).send('Documento excluído com sucesso!');
 		} catch(e){
 			next(e);
 		}
