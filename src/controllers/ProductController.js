@@ -2,15 +2,28 @@ const ProductModel = require('../models/Product');
 
 const ProductController = {
 	getProducts: async (req, res, next) => {
-		try {
-			let productsData = null;
-			if (req.params.id) {
-				productsData = await ProductModel.find({ id: req.params.productId });
-			} else {
-				productsData = await ProductModel.find();
-			}
+		try{
+			const productsData = await ProductModel.find({});
 			res.send(productsData);
 		} catch (e) {
+			next(e);
+		}
+	},
+
+	getProduct: async (req, res, next) => {
+		try{
+			const productData = await ProductModel.findById(req.params.productId);
+			res.send(productData);
+		} catch(e){
+			next(e);
+		}
+	},
+
+	putProduct: async (req, res, next) => {
+		try{
+			const updatedData = await ProductModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
+			res.send(updatedData);
+		} catch(e){
 			next(e);
 		}
 	},
@@ -22,6 +35,15 @@ const ProductController = {
 			next(e);
 		}
 	},
+
+	delProduct: async (req, res, next) => {
+		try{
+			await ProductModel.findByIdAndDelete(req.body.id);
+			res.status(200).send('Documento excluído com sucesso.');
+		} catch(e){
+			next(e);
+		}
+	}
 };
 
 module.exports = ProductController;
