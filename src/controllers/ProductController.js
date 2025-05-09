@@ -2,7 +2,7 @@ const ProductModel = require('../models/Product');
 
 const ProductController = {
 	getProducts: async (req, res, next) => {
-		try{
+		try {
 			const productsData = await ProductModel.find({});
 			res.json(productsData);
 		} catch (e) {
@@ -11,19 +11,29 @@ const ProductController = {
 	},
 
 	getProduct: async (req, res, next) => {
-		try{
-			const productData = await ProductModel.findById(req.params.productId);
+		try {
+			const productData = await ProductModel.findById(req.params.id);
 			res.json(productData);
-		} catch(e){
+		} catch (e) {
 			next(e);
 		}
 	},
 
 	putProduct: async (req, res, next) => {
-		try{
-			const updatedData = await ProductModel.findByIdAndUpdate(req.params.id, req.body, {new: true});
+		try {
+			const currentData = (
+				await ProductModel.findById(req.params.id)
+			).toObject();
+			const newData = Object.keys(currentData).filter(
+				(k) => currentData[k] !== req.body[k],
+			);
+			const updatedData = await ProductModel.findByIdAndUpdate(
+				req.params.id,
+				newData,
+				{ new: true },
+			);
 			res.json(updatedData);
-		} catch(e){
+		} catch (e) {
 			next(e);
 		}
 	},
@@ -38,13 +48,13 @@ const ProductController = {
 	},
 
 	delProduct: async (req, res, next) => {
-		try{
+		try {
 			await ProductModel.findByIdAndDelete(req.body.id);
 			res.status(200).send('Documento excluído com sucesso!');
-		} catch(e){
+		} catch (e) {
 			next(e);
 		}
-	}
+	},
 };
 
 module.exports = ProductController;
