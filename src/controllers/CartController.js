@@ -22,18 +22,20 @@ const CartController = {
 
 	addProductToCart: async (req, res, next) => {
 		try {
+			let newItem = false;
 			const product = await ProductModel.findById(req.params.pid);
 			const cart = await CartModel.findById(req.params.cid);
-			const currentProduct = cart.products.find(
-				(p) => p.pid === req.params.pid,
-			);
+			const updatedCart = cart.products.map((p) => {
+				if (p.pid === req.params.pid) {
+					newItem = true;
+					return { ...p, quantity: p.quantity + 1 };
+				}
+				return p;
+			});
 
-			if (currentProduct) {
+			if (newItem) {
 				await CartModel.findByIdAndUpdate(req.params.cid, {
-					products: [
-						...cart.products,
-						{ ...currentProduct, quantity: currentProduct.quantity + 1 },
-					],
+					products: updatedCart,
 				});
 			} else {
 				await CartModel.findByIdAndUpdate(req.params.cid, {
